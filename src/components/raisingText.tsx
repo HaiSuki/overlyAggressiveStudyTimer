@@ -34,6 +34,7 @@ const angryMessages = [
   "U WILL REGRET THIS",
   "AAAAAAAAAAAAAAAAAAAAAAA",
 ];
+// ----------------------------
 
 const generateSideBiasedPosition = (width: number): number => {
   const random = Math.random();

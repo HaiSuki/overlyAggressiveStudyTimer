@@ -51,11 +51,21 @@ function App() {
   useEffect(() => {
     // part of the timer + checking for break or study time
     if (isTimerRunning && setTimeRemaining === 0) {
+      if (relays + 1 <= 0 && isBreak) {
+        setIsBreak(false);
+        setSetTimeRemaining(studyTime);
+        setIsTimerRunning(false);
+        setRelays(0);
+        sukiMoveToMiddle.play(false);
+        return;
+      }
       const isBreaking = !isBreak;
       setIsBreak(isBreaking);
       setSetTimeRemaining(isBreaking ? breakTime : studyTime);
+      setRelays((prev) => prev - 1);
+
     }
-  }, [setTimeRemaining, isBreak, breakTime, studyTime]);
+  }, [setTimeRemaining, isBreak, breakTime, studyTime, relays]);
 
   useEffect(() => {
     if (isTimerRunning) {
