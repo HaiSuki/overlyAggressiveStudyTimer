@@ -18,5 +18,5 @@ featuring:
 - (or else.)
 
 **credits:** 
-help from [DwifteJB](https://github.com/DwifteJB), who helped me get stuff working
-inspired by [v1peridae](https://github.com/v1peridae/hackadoro)'s hackadoro project, featured on the entrance email
+- help from [DwifteJB](https://github.com/DwifteJB), who helped me get stuff working
+- inspired by [v1peridae](https://github.com/v1peridae/hackadoro)'s hackadoro project, featured on the entrance email
