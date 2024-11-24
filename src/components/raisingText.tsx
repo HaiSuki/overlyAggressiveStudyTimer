@@ -90,12 +90,10 @@ export const RaisingText: React.FC<RaisingTextProps> = ({
   onComplete,
   isWelcome,
 }) => {
-  // Don't show any messages during welcome screen
-  if (isWelcome) {
-    return null;
-  }
 
-  const [messagePositions] = useState(() => {
+
+    const [messagePositions, setMessagePositions] = useState<{ x: number; message: string; delay: number; }[]>([])
+    const GenerateMessagePos = () => {
     const count = Math.floor(Math.random() * 3) + 2;
     const screenWidth = window.innerWidth;
     const messageArray = isBreak ? breakMessages : studyMessages;
@@ -105,7 +103,23 @@ export const RaisingText: React.FC<RaisingTextProps> = ({
       message: messageArray[Math.floor(Math.random() * messageArray.length)],
       delay: index * 0.5 // Add 0.5 second delay between each message
     }));
-  });
+  }
+
+  useEffect(() => {
+    const messages = GenerateMessagePos();
+    setMessagePositions(messages);
+
+  }, [isBreak, isWelcome])
+
+
+
+  // Don't show any messages during welcome screen
+  if (isWelcome) {
+    return null;
+  }
+
+
+
 
   return (
     <>
