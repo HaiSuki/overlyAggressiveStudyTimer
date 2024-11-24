@@ -25,6 +25,8 @@ function App() {
   const [relays, setRelays] = useState(0);
   const [studyTime, setStudyTime] = useState(0);
   const [breakTime, setBreakTime] = useState(0);
+  const [isAngry, setIsAngry] = useState(false);
+  const [prevMousePos, setPrevMousePos] = useState({ x: 0, y: 0 });
 
   const [isBreak, setIsBreak] = useState(false);
   const [setTimeRemaining, setSetTimeRemaining] = useState(studyTime);
@@ -74,20 +76,57 @@ function App() {
     }
   }, [isTimerRunning]);
 
+  useEffect(() => {
+
+    const MouseMove = (event: MouseEvent) => {
+      const dx = event.clientX - prevMousePos.x;
+      const dy = event.clientY - prevMousePos.y;
+      const distance = Math.sqrt(dx * dx + dy * dy);
+
+      if (distance > 50 && !isBreak && !isAngry && isTimerRunning) {
+        setIsAngry(true);
+      }
+
+      setPrevMousePos({ x: event.clientX, y: event.clientY });
+    }
+
+    const visibilitychange = () => {
+      if (document.hidden && !isAngry && isTimerRunning && !isBreak) {
+        setIsAngry(true);
+      }
+    }
+
+    document.addEventListener("mousemove", MouseMove);
+
+    document.addEventListener("visibilitychange", visibilitychange);
+
+    const interval = setInterval(() => {
+      if (isAngry) {
+        setIsAngry(false);
+      }
+    }, 2000);
+
+    return () => {
+      document.removeEventListener("mousemove", MouseMove);
+      document.removeEventListener("visibilitychange", visibilitychange);
+      clearInterval(interval);
+    };
+  }, [isAngry, prevMousePos, isTimerRunning, isBreak]);
+
   // this bit is the startup window and allat
   return (
     <>
       <div
-        className={`${isBreak ? "bg-[#E5D1B5]" : "bg-[#BFB7E4]"} h-screen w-screen`}
+        className={`${isBreak ? "bg-[#E5D1B5]" : (isAngry ? "bg-[#FF9696]" : "bg-[#BFB7E4]")} h-screen w-screen`}
       >
-        <MusicManager isBreaking={isBreak} isTimerRunning={isTimerRunning} />
+        <MusicManager isAngry={isAngry} isBreaking={isBreak} isTimerRunning={isTimerRunning} />
         <div style={{ zIndex: 99999 }}>
-          <RaisingText isBreak={isBreak} isWelcome={!isTimerRunning} />
+          <RaisingText isBreak={isBreak} isWelcome={!isTimerRunning} isAngry={isAngry}/>
         </div>
         <StartupModal />
         <div className="justify-center items-center text-center w-full pt-4">
           <h1
-            className="funny-font text-[#42425F]"
+             className="funny-font text-[#42425F]"
             style={{
               fontSize: "60px",
             }}
@@ -95,11 +134,12 @@ function App() {
             {isBreak
               ? "break time :p"
               : isTimerRunning
-                ? "study time"
-                : "welcome!"}
+              ? (isAngry ? "GET BACK TO WORK!" : `studying${['...', '..', '.'][Math.floor((Date.now() / 500) % 3)]}`)
+              : "welcome!"}
           </h1>
 
           <Timer
+          isAngry={isAngry}
             timeRemaining={setTimeRemaining}
             isRunning={isTimerRunning}
             setIsRunning={setIsTimerRunning}
@@ -108,7 +148,7 @@ function App() {
         </div>
 
         <img
-          src={`${isBreak ? "/sukiSnooze.gif" : " /sukiChill.gif"}`}
+          src={`${isBreak ? "/sukiSnooze.gif" : (isAngry ? "/sukiANGRY.gif" : "/sukiChill.gif")}`}
           style={sukiMoveToMiddle.style}
           className="pointer-events-none z-50"
         />
@@ -180,8 +220,14 @@ function App() {
         </div>
 
         <img
+          style={{
+            transform: "translate(0, 50px)",
+            position: "fixed",
+            right: "0",
+            bottom: "60%",
+          }}
           src="/startButton2.png"
-          className={`absolute top-48 right-0 z-50 cursor-pointer w-[40%] animateUpAndDown ${isTimerRunning ? "hidden" : ""} `}
+          className={`absolute z-50 cursor-pointer w-[400px] animateUpAndDown ${isTimerRunning ? "hidden" : ""} `}
           onClick={() => {
             if (studyTime === 0 || breakTime === 0) {
               return;

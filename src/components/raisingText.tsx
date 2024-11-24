@@ -4,7 +4,9 @@ import { useEffect, useState } from "react";
 interface RaisingTextProps {
   isBreak: boolean;
   onComplete?: () => void;
-  isWelcome: boolean; // Add this new prop
+  isWelcome: boolean;
+  isAngry: boolean;
+  // Add this new prop
 }
 
 const studyMessages = [
@@ -33,6 +35,7 @@ const angryMessages = [
   "HOW WILL YOU SUCCEED",
   "U WILL REGRET THIS",
   "AAAAAAAAAAAAAAAAAAAAAAA",
+  "😡",
 ];
 // ----------------------------
 
@@ -90,6 +93,7 @@ export const RaisingText: React.FC<RaisingTextProps> = ({
   isBreak,
   onComplete,
   isWelcome,
+  isAngry,
 }) => {
 
 
@@ -97,7 +101,7 @@ export const RaisingText: React.FC<RaisingTextProps> = ({
     const GenerateMessagePos = () => {
     const count = Math.floor(Math.random() * 3) + 2;
     const screenWidth = window.innerWidth;
-    const messageArray = isBreak ? breakMessages : studyMessages;
+    const messageArray = isBreak ? breakMessages : isAngry ? angryMessages : studyMessages;
     
     return Array.from({ length: count }, (_, index) => ({
       x: generateSideBiasedPosition(screenWidth),
@@ -110,7 +114,7 @@ export const RaisingText: React.FC<RaisingTextProps> = ({
     const messages = GenerateMessagePos();
     setMessagePositions(messages);
 
-  }, [isBreak, isWelcome])
+  }, [isBreak, isWelcome, isAngry])
 
 
 

@@ -81,11 +81,16 @@ function StartupModal() {
             do
           </p>
           <p className="text-xl pt-2 funny-font text-center text-black">
-            do not tab out or move your mouse while studying.
+            do not DARE move your mouse while studying.
           </p>
           <p className="text-xl pt-2 funny-font text-center text-black">
             cus then how do i know youre ACTUALLY studying ;)
           </p>
+          <br/>
+          <p className="text-xl pt-2 funny-font text-center text-black">
+            btw fullscreen is recommended
+          </p>
+
         </div>
 
         <div className="flex justify-center h-[100%] pt-6">

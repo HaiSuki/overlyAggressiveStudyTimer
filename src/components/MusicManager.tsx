@@ -1,14 +1,14 @@
 import songs from "@/lib/songs";
 import { useEffect, useRef, useState } from "react";
 
-const MusicManager = ({isBreaking, isTimerRunning}: {isBreaking: boolean, isTimerRunning: boolean}) => {
+const MusicManager = ({isBreaking, isTimerRunning, isAngry}: {isBreaking: boolean, isTimerRunning: boolean, isAngry: boolean}) => {
     const [currentSong, setCurrentSong] = useState<string | null>(null);
     const [audioPermitted, setAudioPermitted] = useState(false);
     const audioRef = useRef<HTMLAudioElement>(null);
 
     const SelectAudio = () => {
         if (!audioRef.current) return;
-        const songList = isBreaking ? songs.break : songs.study;
+        const songList = isBreaking ? songs.break : isAngry? songs.angry : songs.study;
         const song = songList[Math.floor(Math.random() * songList.length)];
         setCurrentSong(song);
         audioRef.current.src = "backgroundMusic/" + song;
@@ -23,6 +23,7 @@ const MusicManager = ({isBreaking, isTimerRunning}: {isBreaking: boolean, isTime
             console.error("Audio playback failed:", error);
             setAudioPermitted(false);
         }
+
     };
 
     const handleTrackEnd = () => {
@@ -46,7 +47,7 @@ const MusicManager = ({isBreaking, isTimerRunning}: {isBreaking: boolean, isTime
         SelectAudio();
         startAudio();
 
-    }, [isBreaking, isTimerRunning, audioPermitted]);
+    }, [isBreaking, isTimerRunning, audioPermitted, isAngry]);
 
     return (
         <>
