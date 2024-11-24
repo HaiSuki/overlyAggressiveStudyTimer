@@ -7,6 +7,7 @@ import { Slider } from "@/components/ui/slider";
 
 import { useAnimate } from "react-simple-animate";
 import { RaisingText } from "./components/raisingText";
+import MusicManager from "./components/MusicManager";
 
 const convertTime = (time: string) => {
   console.log(time);
@@ -79,6 +80,7 @@ function App() {
       <div
         className={`${isBreak ? "bg-[#E5D1B5]" : "bg-[#BFB7E4]"} h-screen w-screen`}
       >
+        <MusicManager isBreaking={isBreak} isTimerRunning={isTimerRunning} />
         <div style={{ zIndex: 99999 }}>
           <RaisingText isBreak={isBreak} isWelcome={!isTimerRunning} />
         </div>
