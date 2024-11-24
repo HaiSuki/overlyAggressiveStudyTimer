@@ -2,7 +2,7 @@ import songs from "@/lib/songs";
 import { useEffect, useRef, useState } from "react";
 
 const MusicManager = ({isBreaking, isTimerRunning, isAngry}: {isBreaking: boolean, isTimerRunning: boolean, isAngry: boolean}) => {
-    const [currentSong, setCurrentSong] = useState<string | null>(null);
+    const [_, setCurrentSong] = useState<string | null>(null);
     const [audioPermitted, setAudioPermitted] = useState(false);
     const audioRef = useRef<HTMLAudioElement>(null);
 

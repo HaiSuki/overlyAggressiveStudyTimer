@@ -11,7 +11,6 @@ interface TimerProps {
 const Timer: React.FC<TimerProps> = ({
   timeRemaining,
   isRunning,
-  setIsRunning,
   setTimeRemaining,
   isAngry
 }) => {

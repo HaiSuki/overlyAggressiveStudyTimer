@@ -91,7 +91,7 @@ const Message: React.FC<{
 
 export const RaisingText: React.FC<RaisingTextProps> = ({
   isBreak,
-  onComplete,
+  
   isWelcome,
   isAngry,
 }) => {
